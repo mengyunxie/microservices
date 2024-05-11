@@ -15,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 @RestController
 @RequestMapping("/api/v1/order")
 @RequiredArgsConstructor
+@Slf4j
 public class OrderController {
     private final OrderService orderService;
 
@@ -24,6 +25,7 @@ public class OrderController {
     @Retry(name = "inventory") // Resilience4J
     @ResponseStatus(HttpStatus.CREATED)
     public CompletableFuture<String> placeOrder(@RequestBody OrderRequest orderRequest) {
+        log.info("new Order {}", orderRequest);
         return CompletableFuture.supplyAsync(() -> orderService.placeOrder(orderRequest));
     }
 
